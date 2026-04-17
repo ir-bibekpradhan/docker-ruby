@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Bundler
+vendor/bundle/
+.bundle/
+
+# Environment
+.env
+*.env
+
+# Tests
+spec/
+coverage/
+
+# Docs & metadata
+*.md
+LICENSE
+
+# IDE
+.vscode/
+.idea/

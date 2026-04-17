@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-ruby:local
+    container_name: docker-ruby-app
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=development
+      - RACK_ENV=development
+    volumes:
+      - ./lib:/app/lib:ro
+    restart: "no"

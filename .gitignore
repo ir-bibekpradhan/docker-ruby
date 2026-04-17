@@ -1,0 +1,25 @@
+# Bundler
+vendor/bundle/
+.bundle/
+Gemfile.lock
+
+# Environment
+.env
+.env.local
+
+# Testing
+coverage/
+.rspec_status
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
