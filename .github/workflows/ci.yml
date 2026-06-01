@@ -6,11 +6,24 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  checks: write
+  actions: write
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup PSE
+        uses: invisirisk/pse-action@develop
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{secrets.IR_API_KEY}}
+      # ============= InvisiRisk Setup End =============
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -29,9 +42,19 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
+      checks: read
+      actions: read
       packages: write
 
     steps:
+      # ============= InvisiRisk Setup =============
+      - name: Setup PSE
+        uses: invisirisk/pse-action@develop
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{secrets.IR_API_KEY}}
+      # ============= InvisiRisk Setup End =============
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -48,3 +71,8 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+          build-args: |
+            BUILDKIT_SYNTAX=public.ecr.aws/w3c0c0n7/invisirisk/baf-buildkit:latest
+            PSE_PROXY=http://${{ env.PSE_PROXY_IP }}:3128
+          secret-files: |
+            pse-ca=/etc/ssl/certs/pse.pem
