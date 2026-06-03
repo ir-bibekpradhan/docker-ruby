@@ -18,9 +18,8 @@ jobs:
     steps:
       # ============= InvisiRisk Setup =============
       - name: Setup PSE
-        uses: invisirisk/pse-action@develop
+        uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
           app_token: ${{secrets.IR_API_KEY}}
       # ============= InvisiRisk Setup End =============
 
@@ -36,6 +35,14 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
+     # ============= InvisiRisk Cleanup =============
+      - name: Cleanup PSE
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============   
+
   docker:
     runs-on: ubuntu-latest
 
@@ -48,9 +55,8 @@ jobs:
     steps:
       # ============= InvisiRisk Setup =============
       - name: Setup PSE
-        uses: invisirisk/pse-action@develop
+        uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.stage.invisirisk.com"
           app_token: ${{secrets.IR_API_KEY}}
       # ============= InvisiRisk Setup End =============
 
@@ -75,3 +81,13 @@ jobs:
             PSE_PROXY=http://${{ env.PSE_PROXY_IP }}:3128
           secret-files: |
             pse-ca=/etc/ssl/certs/pse.pem
+
+              # ============= InvisiRisk Cleanup =============
+      - name: Cleanup PSE
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
+      # ============= InvisiRisk Cleanup End =============    
+
+        
